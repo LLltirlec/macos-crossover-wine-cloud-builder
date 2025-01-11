@@ -23,6 +23,7 @@ runs:
           ASSET_URL=$(curl -s https://api.github.com/repos/LLltirlec/wine_CX-10.0/releases/tags/1 \
             | jq -r '.assets[] | select(.name=="crossover-sources-24.0.5.tar.gz").browser_download_url')
           curl -L -o crossover-24.0.5.tar.gz "$ASSET_URL"
+        shell: bash
 
       - name: Extract Source
         run: |
