@@ -24,16 +24,16 @@ jobs:
     runs-on:  macos-13
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: https://media.codeweavers.com/pub/crossover/source/crossover-sources-21.2.0.tar.gz
-      CROSS_OVER_LOCAL_FILE: crossover-22.0.1
+      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5-1.tar
+      CROSS_OVER_LOCAL_FILE: crossover-24.0.5-1
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       ############ Restore MoltenVK / DXVK from cache ##############
 
       - name: Restore MoltenVK / DXVK from cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache_moltenVK_DXVK
         with:
           path: ${{ env.INSTALLROOT }}/${{ env.MOLTENVK_DXVK_INSTALLATION }}
@@ -65,7 +65,7 @@ jobs:
           popd
 
       - name: Upload MoltenVK / DXVK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MOLTENVK_DXVK_INSTALLATION }}
           path: ${{ env.INSTALLROOT }}/${{ env.MOLTENVK_DXVK_INSTALLATION }}.tar.gz
@@ -78,12 +78,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        CROSS_OVER_VERSION: [22.0.1] #, 21.2.0, 20.0.4, 19.0.2] # 22.0.0, 21.1.0, 21.0.0, 20.0.2, 20.0.1, 20.0.0, 19.0.1, 19.0.0
+        CROSS_OVER_VERSION: [24.0.5]
     runs-on:  macos-13
 
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: https://media.codeweavers.com/pub/crossover/source/crossover-sources-${{ matrix.CROSS_OVER_VERSION }}.tar.gz
+      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5-1.tar
       CROSS_OVER_LOCAL_FILE: crossover-${{ matrix.CROSS_OVER_VERSION }}
       # artifact names
       WINE_INSTALLATION: wine-cx${{ matrix.CROSS_OVER_VERSION }}
@@ -94,7 +94,7 @@ jobs:
       ############ Prepare Workspace / Environment ##############
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get latest HomeBrew formulas/bottles
         run: |
@@ -124,14 +124,6 @@ jobs:
                         sane-backends      \
                         sdl2
 
-      - name: Install Wine Runtime Dependencies (pre 22)
-        if: ${{ matrix.CROSS_OVER_VERSION < '22' }}
-        run: |
-          brew install  faudio             \
-                        little-cms2        \
-                        libpng             \
-                        mpg123
-
       - name: Add bison, cx-llvm, flex & krb5 to $PATH
         run: |
           set -x
@@ -141,7 +133,7 @@ jobs:
           echo "$(brew --prefix krb5)/bin"    >> $GITHUB_PATH
 
       - name: Download MoltenVK / DXVK (from previous job)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.MOLTENVK_DXVK_INSTALLATION }}
           path: ${{ env.INSTALLROOT }}
@@ -164,54 +156,14 @@ jobs:
           crossover-local-file: "${{ env.CROSS_OVER_LOCAL_FILE }}"
           crossover-source-url: "${{ env.CROSS_OVER_SOURCE_URL }}"
 
-      - name: Patch Add missing distversion.h
-        # Patch provided by Josh Dubois, CrossOver product manager, CodeWeavers.
-        run: |
-          pushd sources/wine
-          patch -p1 < ${{ github.workspace }}/distversion.patch
-          popd
-
-      - name: Patch in vkd3d-1.4 (specific to 22.0.0)
-        if: ${{ matrix.CROSS_OVER_VERSION == '22.0.0' }}
-        run: |
-          pushd sources/wine
-          patch -p1 < ${GITHUB_WORKSPACE}/CX22.0.0-vkd3d-1.4.patch
-          popd
-
-      - name: Patch ntdll/wcstring.c to prevent crash if a nullptr is supplied to the function
-        # Hack by dasmy
-        if: startsWith(matrix.CROSS_OVER_VERSION, '20')
-        run: |
-          pushd sources/wine
-          patch -p1 < ${{ github.workspace }}/wcstring.patch
-          popd
-
-      - name: Patch msvcrt to export the missing sincos function (specific to 20)
-        # https://gitlab.winehq.org/wine/wine/-/commit/f0131276474997b9d4e593bbf8c5616b879d3bd5
-        if: startsWith(matrix.CROSS_OVER_VERSION, '20')
-        run: |
-          pushd sources/wine
-          patch -p1 < ${{ github.workspace }}/msvcrt-sincos.patch
-          popd
-
       ############ Configure 64bit Version ##############
 
-      - name: Configure wine64 (specific to 22)
-        if: startsWith(matrix.CROSS_OVER_VERSION, '22')
+      - name: Configure wine64
         uses: ./.github/actions/configure_wine
         with:
           winearch: "wine64"
           build-dir: "${{ env.BUILDROOT }}/wine64"
           crossflags: "-g -O2"
-          configure-params: "--enable-win64 --with-vulkan"
-
-      - name: Configure wine64 (pre 22)
-        if: ${{ matrix.CROSS_OVER_VERSION < '22' }}
-        uses: ./.github/actions/configure_wine
-        with:
-          winearch: "wine64"
-          build-dir: "${{ env.BUILDROOT }}/wine64"
-          crossflags: "-g -O2 -fcommon"
           configure-params: "--enable-win64 --with-vulkan"
 
       ############ Build 64bit Version ##############
@@ -223,23 +175,13 @@ jobs:
 
       ############ Configure 32on64bit Version ##############
 
-      - name: Configure wine32on64 (specific to 22)
-        if: startsWith(matrix.CROSS_OVER_VERSION, '22')
+      - name: Configure wine32on64
         uses: ./.github/actions/configure_wine
         with:
           winearch: "wine32on64"
           build-dir: "${{ env.BUILDROOT }}/wine32on64"
           crossflags: "-g -O2"
           configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
-
-      - name: Configure wine32on64 (pre 22)
-        if: ${{ matrix.CROSS_OVER_VERSION < '22' }}
-        uses: ./.github/actions/configure_wine
-        with:
-          winearch: "wine32on64"
-          build-dir: "${{ env.BUILDROOT }}/wine32on64"
-          crossflags: "-g -O2 -fcommon"
-          configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vkd3d --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
 
       ############ Build 32on64bit Version ##############
 
@@ -279,7 +221,7 @@ jobs:
           popd
 
       - name: Upload Wine
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.WINE_INSTALLATION }}
           path: ${{ env.INSTALLROOT }}/${{ env.WINE_INSTALLATION }}.tar.gz
@@ -289,7 +231,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        CROSS_OVER_VERSION: [22.0.1] # 22.0.0, 21.2.0, 20.0.4, 19.0.2, 21.1.0, 21.0.0, 20.0.2, 20.0.1, 20.0.0
+        CROSS_OVER_VERSION: [24.0.5]
     runs-on:  macos-13
     needs: wine-crossover
 
