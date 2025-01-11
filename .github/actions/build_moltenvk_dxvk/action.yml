@@ -83,6 +83,17 @@ runs:
 
         popd
 
+    ############ Prepare DXVK source ##############
+    - name: Remove existing DXVK directory
+      shell: bash
+      run: |
+        rm -rf ${{ inputs.crossover-source }}/dxvk
+
+    - name: Clone DXVK-macOS repository
+      shell: bash
+      run: |
+        git clone https://github.com/Gcenx/DXVK-macOS.git ${{ inputs.crossover-source }}/dxvk
+
     ############ Build and Install DXVK ##############
     - name: Get latest HomeBrew formulas/bottles
       shell: bash
@@ -103,6 +114,7 @@ runs:
       run: |
         set -x
         pushd ${{ inputs.crossover-source }}/dxvk
+        ls
         mkdir install
 
         ./package-release.sh master ${{ inputs.crossover-source }}/dxvk/install --no-package
