@@ -24,7 +24,7 @@ jobs:
     runs-on:  macos-13
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: "https://objects.githubusercontent.com/github-production-release-asset-2e65be/913276876/5930ea10-b9f8-4960-a588-5cc3bf1c2ee6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250111T124403Z&X-Amz-Expires=300&X-Amz-Signature=1dc18a5c30bb30430f949818445fd68a49fc80579404a003ba4fbeacee894ce7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dcrossover-sources-24.0.5.tar.gz&response-content-type=application%2Foctet-stream"
+      CROSS_OVER_SOURCE_URL: crossover-sources-24.0.5.tar.gz
       CROSS_OVER_LOCAL_FILE: crossover-24.0.5
     steps:
       - name: Checkout
@@ -83,7 +83,7 @@ jobs:
 
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: "https://objects.githubusercontent.com/github-production-release-asset-2e65be/913276876/5930ea10-b9f8-4960-a588-5cc3bf1c2ee6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250111T124403Z&X-Amz-Expires=300&X-Amz-Signature=1dc18a5c30bb30430f949818445fd68a49fc80579404a003ba4fbeacee894ce7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dcrossover-sources-24.0.5.tar.gz&response-content-type=application%2Foctet-stream"
+      CROSS_OVER_SOURCE_URL: crossover-sources-24.0.5.tar.gz
       CROSS_OVER_LOCAL_FILE: crossover-${{ matrix.CROSS_OVER_VERSION }}
       # artifact names
       WINE_INSTALLATION: wine-cx${{ matrix.CROSS_OVER_VERSION }}
