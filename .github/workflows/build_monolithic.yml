@@ -24,7 +24,7 @@ jobs:
     runs-on:  macos-13
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5-1.tar
+      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5.tar.gz
       CROSS_OVER_LOCAL_FILE: crossover-24.0.5-1
     steps:
       - name: Checkout
@@ -83,7 +83,7 @@ jobs:
 
     env:
       # crossover source code to be downloaded
-      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5-1.tar
+      CROSS_OVER_SOURCE_URL: https://github.com/LLltirlec/wine_CX-10.0/releases/download/1/crossover-sources-24.0.5.tar.gz
       CROSS_OVER_LOCAL_FILE: crossover-${{ matrix.CROSS_OVER_VERSION }}
       # artifact names
       WINE_INSTALLATION: wine-cx${{ matrix.CROSS_OVER_VERSION }}
