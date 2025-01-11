@@ -20,9 +20,9 @@ runs:
       - name: Download Source
         if:  steps.cache_sourcecode.outputs.cache-hit != 'true'
         run:  |
-          ASSET_URL=$(curl -s https://api.github.com/repos/LLltirlec/wine_CX-10.0/releases/tags/latest \
-            | jq -r '.assets[] | select(.name=="${{ inputs.crossover-source-url }}").browser_download_url')
-          curl -L -o ${{ inputs.crossover-local-file }} "$ASSET_URL"
+          ASSET_URL=$(curl -s https://api.github.com/repos/LLltirlec/wine_CX-10.0/releases/tags/1 \
+            | jq -r '.assets[] | select(.name=="crossover-sources-24.0.5.tar.gz").browser_download_url')
+          curl -L -o crossover-24.0.5.tar.gz "$ASSET_URL"
 
       - name: Extract Source
         run: |
