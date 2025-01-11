@@ -133,6 +133,6 @@ runs:
 
         echo Installing DXVK setup script...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/bin
-        cp setup_dxvk.sh ${{ inputs.install-prefix }}/usr/local/bin/
+        cp ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.install-prefix }}/usr/local/bin/
 
         popd
