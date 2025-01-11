@@ -88,11 +88,13 @@ runs:
       shell: bash
       run: |
         rm -rf ${{ inputs.crossover-source }}/dxvk
+        mv ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.crossover-source }}
 
     - name: Clone DXVK-macOS repository
       shell: bash
       run: |
         git clone https://github.com/Gcenx/DXVK-macOS.git ${{ inputs.crossover-source }}/dxvk
+        mv ${{ inputs.crossover-source }}/setup_dxvk.sh ${{ inputs.crossover-source }}/dxvk/
 
     ############ Build and Install DXVK ##############
     - name: Get latest HomeBrew formulas/bottles
@@ -127,11 +129,10 @@ runs:
         pushd ${{ inputs.crossover-source }}/dxvk/install/dxvk-macOS-async-master
         echo Installing DXVK dlls...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/lib64/wine
-        cp -r x32 ${{ inputs.install-prefix }}/usr/local/lib64/wine/dxvk
         cp -r x64 ${{ inputs.install-prefix }}/usr/local/lib64/wine/dxvk
 
         echo Installing DXVK setup script...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/bin
-        cp ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.install-prefix }}/usr/local/bin/
+        cp setup_dxvk.sh ${{ inputs.install-prefix }}/usr/local/bin/
 
         popd
