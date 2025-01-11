@@ -124,20 +124,15 @@ runs:
       shell: bash
       run: |
         set -x
-        pushd ${{ inputs.crossover-source }}/dxvk/install
-        echo -----------FOLDERS-----------
-        ls
-        echo -----------FOLDERS-----------
         pushd ${{ inputs.crossover-source }}/dxvk/install/dxvk-macOS-async-master
-        echo -----------dxvk-macOS-async-master-----------
-        ls
-        echo -----------dxvk-macOS-async-master-----------
         echo Installing DXVK dlls...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/lib64/wine
+        cp -r x32 ${{ inputs.install-prefix }}/usr/local/lib64/wine/dxvk
         cp -r x64 ${{ inputs.install-prefix }}/usr/local/lib64/wine/dxvk
 
         echo Installing DXVK setup script...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/bin
+        pushd ${{ inputs.crossover-source }}/dxvk
         cp setup_dxvk.sh ${{ inputs.install-prefix }}/usr/local/bin/
 
         popd
