@@ -124,7 +124,9 @@ runs:
       shell: bash
       run: |
         set -x
-        pushd ${{ inputs.crossover-source }}/dxvk/install/dxvk-macOS-master
+        pushd ${{ inputs.crossover-source }}/dxvk/install
+        ls
+        pushd ${{ inputs.crossover-source }}/dxvk/install/dxvk-macOS-async-master
 
         echo Installing DXVK dlls...
         mkdir -p ${{ inputs.install-prefix }}/usr/local/lib64/wine
