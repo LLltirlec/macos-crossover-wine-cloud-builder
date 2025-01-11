@@ -95,7 +95,7 @@ runs:
         brew install  glslang   \
                       meson
 
-        wget https://raw.githubusercontent.com/Homebrew/homebrew-core/d5ec00528f86b8ac31fac2a67b7667cc72aa1b04/Formula/mingw-w64.rb -O mingw-w64.rb
+        wget https://raw.githubusercontent.com/Homebrew/homebrew-core/244b1a9d295160f447994ea0f91d8caa807926e3/Formula/m/mingw-w64.rb -O mingw-w64.rb
         brew install mingw-w64.rb
 
     - name: Build DXVK
@@ -103,6 +103,7 @@ runs:
       run: |
         set -x
         pushd ${{ inputs.crossover-source }}/dxvk
+        mkdir install
 
         ./package-release.sh master ${{ inputs.crossover-source }}/dxvk/install --no-package
         popd
