@@ -87,8 +87,8 @@ runs:
     - name: Remove existing DXVK directory
       shell: bash
       run: |
-        rm -rf ${{ inputs.crossover-source }}/dxvk
         mv ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.crossover-source }}
+        rm -rf ${{ inputs.crossover-source }}/dxvk
 
     - name: Clone DXVK-macOS repository
       shell: bash
