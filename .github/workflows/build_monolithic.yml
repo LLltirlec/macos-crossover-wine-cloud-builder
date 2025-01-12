@@ -159,7 +159,6 @@ jobs:
       - name: Remove existing WINE directory
         shell: bash
         run: |
-          mv ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.crossover-source }}
           rm -rf ${{ github.workspace }}/sources/wine
           ls
       
