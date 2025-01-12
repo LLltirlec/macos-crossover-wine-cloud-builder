@@ -105,7 +105,8 @@ jobs:
           brew update
           brew install  gcenx/wine/cx-llvm \
                         flex               \
-                        pkgconfig
+                        pkgconfig          \
+                        gettext
 
           brew reinstall  bison
 
@@ -192,7 +193,7 @@ jobs:
           winearch: "wine32on64"
           build-dir: "${{ env.BUILDROOT }}/wine32on64"
           crossflags: "-g -O2"
-          configure-params: " -q -C --enable-archs=i386,x86_64,aarch64 --with-mingw=clang --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
+          configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
 
       ############ Build 32on64bit Version ##############
 
