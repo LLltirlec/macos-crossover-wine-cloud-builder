@@ -178,7 +178,7 @@ jobs:
           winearch: "wine64"
           build-dir: "${{ env.BUILDROOT }}/wine64"
           crossflags: "-g -O2"
-          configure-params: "--enable-archs=i386,x86_64 --enable-win64 --disable-tests --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-ffmpeg --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --with-inotify --without-krb5 --with-mingw --without-netapi --with-opencl --with-opengl --without-oss --with-pcap --with-pcsclite --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-wayland --without-x"
+          configure-params: "--enable-archs=i386,x86_64 --enable-win64 --disable-tests --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-ffmpeg --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --without-krb5 --with-mingw --without-netapi --with-opencl --with-opengl --without-oss --with-pcap --with-pcsclite --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-wayland --without-x"
 
       ############ Build 64bit Version ##############
 
