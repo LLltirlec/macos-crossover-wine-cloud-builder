@@ -178,7 +178,7 @@ jobs:
           winearch: "wine64"
           build-dir: "${{ env.BUILDROOT }}/wine64"
           crossflags: "-g -O2"
-          configure-params: "--enable-win64 --with-vulkan"
+          configure-params: "--enable-archs=i386,x86_64 --enable-win64 --disable-tests --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-ffmpeg --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --with-inotify --without-krb5 --with-mingw --without-netapi --with-opencl --with-opengl --without-oss --with-pcap --with-pcsclite --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-wayland --without-x"
 
       ############ Build 64bit Version ##############
 
@@ -187,43 +187,13 @@ jobs:
         with:
           build-dir: "${{ env.BUILDROOT }}/wine64"
 
-      ############ Configure 32on64bit Version ##############
-
-      - name: Configure wine32on64
-        uses: ./.github/actions/configure_wine
-        with:
-          winearch: "wine32on64"
-          build-dir: "${{ env.BUILDROOT }}/wine32on64"
-          crossflags: "-g -O2"
-          configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
-
-      ############ Build 32on64bit Version ##############
-
-      - name: Build wine32on64
-        uses: ./.github/actions/make
-        with:
-          build-dir: "${{ env.BUILDROOT }}/wine32on64"
-
       ############ Install wine ##############
-
-      - name: Install wine32on64
-        uses: ./.github/actions/install
-        with:
-          build-dir: "${{ env.BUILDROOT }}/wine32on64"
-          install-dir: "${{ env.INSTALLROOT }}/${{ env.WINE_INSTALLATION }}"
 
       - name: Install wine64
         uses: ./.github/actions/install
         with:
           build-dir: "${{ env.BUILDROOT }}/wine64"
           install-dir: "${{ env.INSTALLROOT }}/${{ env.WINE_INSTALLATION }}"
-
-      - name: Create wine, wine-preloader symlinks
-        run: |
-          pushd ${{ env.INSTALLROOT }}/${{ env.WINE_INSTALLATION }}/usr/local/bin
-          ln -s wine32on64 wine
-          ln -s wine32on64-preloader wine-preloader
-          popd
 
       ############ Bundle and Upload Deliverable ##############
 
