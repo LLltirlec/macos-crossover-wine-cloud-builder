@@ -11,10 +11,6 @@ runs:
         run: |
           pushd ${{ inputs.build-dir }}
           ls
-        shell: bash
-
-      - name: Building in ${{ inputs.build-dir }}
-        run: |
           make -j$(sysctl -n hw.activecpu 2>/dev/null)
           popd
         shell: bash
