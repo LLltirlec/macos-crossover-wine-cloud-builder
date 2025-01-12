@@ -192,7 +192,7 @@ jobs:
           winearch: "wine32on64"
           build-dir: "${{ env.BUILDROOT }}/wine32on64"
           crossflags: "-g -O2"
-          configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
+          configure-params: "--enable-win32on64 --with-wine64=${{ env.BUILDROOT }}/wine64 --with-mingw CROSSCC=i686-w64-mingw32-gcc CROSSCC64=x86_64-w64-mingw32-gcc --without-cms --without-openal --without-gstreamer --without-gphoto --without-krb5 --without-sane --without-vulkan --disable-vulkan_1 --disable-winedbg --disable-winevulkan"
 
       ############ Build 32on64bit Version ##############
 
