@@ -156,17 +156,17 @@ jobs:
           crossover-local-file: "${{ env.CROSS_OVER_LOCAL_FILE }}"
           crossover-source-url: "${{ env.CROSS_OVER_SOURCE_URL }}"
 
-      - name: Remove existing DXVK directory
-      shell: bash
-      run: |
-        mv ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.crossover-source }}
-        rm -rf ${{ github.workspace }}/sources/wine
-        ls
+      - name: Remove existing WINE directory
+        shell: bash
+        run: |
+          mv ${{ inputs.crossover-source }}/dxvk/setup_dxvk.sh ${{ inputs.crossover-source }}
+          rm -rf ${{ github.workspace }}/sources/wine
+          ls
       
-      - name: Clone DXVK-macOS repository
-      shell: bash
-      run: |
-        git clone https://github.com/LLltirlec/wine_CX-10.0.git ${{ github.workspace }}/sources/wine
+      - name: Clone WINE repository
+        shell: bash
+        run: |
+          git clone https://github.com/LLltirlec/wine_CX-10.0.git ${{ github.workspace }}/sources/wine
 
       ############ Configure 64bit Version ##############
 
